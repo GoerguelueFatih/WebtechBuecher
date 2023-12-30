@@ -8,18 +8,21 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "users")
+@Table(name = "books")
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Book {
 
     @Id
-    private String id;
-    private String username;
-    private String password;
+    String isbn;
+    String titel;
+    String kosten;
+    String erscheinungsdatum;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category")
+    private Category category;
 }
-

@@ -6,21 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "book_order")
+import java.util.List;
+
+@Table(name = "categories")
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookOrder {
+public class Category {
 
     @Id
     String id;
     String name;
-    String kosten;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Book> books;
 }

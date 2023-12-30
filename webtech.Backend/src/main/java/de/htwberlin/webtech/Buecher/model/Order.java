@@ -6,20 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "users")
+@Table(name = "orders")
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Order {
 
     @Id
-    private String id;
-    private String username;
-    private String password;
+    String id;
+    String summe;
+    String status;
+    LocalDate localDate = LocalDate.now();
+
+
+    @ManyToOne
+    @JoinColumn(name = "users")
+    private User user;
 
 }
-

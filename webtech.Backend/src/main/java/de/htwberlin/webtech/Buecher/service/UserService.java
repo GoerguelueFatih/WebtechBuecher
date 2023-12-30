@@ -20,6 +20,7 @@ public class UserService {
         return user;
     }
 
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -29,8 +30,7 @@ public class UserService {
     }
 
     public void deleteUser(String userId) {
-        userRepository.deleteById(Long.valueOf(userId));
+        userRepository.deleteById(userId);
     }
-
 }
 
