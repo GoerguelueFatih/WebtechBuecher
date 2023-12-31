@@ -18,13 +18,13 @@ public class Order {
 
     @Id
     String id;
-    String summe;
+    String total;
     String status;
     LocalDate localDate = LocalDate.now();
 
 
     @ManyToOne
-    @JoinColumn(name = "users")
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

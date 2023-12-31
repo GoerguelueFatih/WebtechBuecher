@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Table(name = "books")
 @Data
 @Entity
@@ -18,11 +16,18 @@ public class Book {
 
     @Id
     String isbn;
-    String titel;
-    String kosten;
-    String erscheinungsdatum;
+    String title;
+    String cost;
+    String releaseDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category", referencedColumnName = "name")
     private Category category;
+
+    @Transient
+    private Long categoryId;
+
+    @Transient
+    private String categoryName;
+
 }

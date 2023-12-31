@@ -5,6 +5,7 @@ import de.htwberlin.webtech.Buecher.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,12 +21,18 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks(@RequestParam(required = false) String titel) {
-        if (titel != null) {
-            return bookService.searchByTitel(titel);
+    public List<Book> getAllBooks(@RequestParam(required = false) String title) {
+        if (title != null) {
+            return bookService.searchByTitle(title);
         }
         return bookService.getAllBooks();
     }
+
+    @PutMapping("/{isbn}")
+    public Book updateBook(@PathVariable String isbn, @RequestBody Book updatedBook){
+        return bookService.updateBook(isbn, updatedBook);
+    }
+
 
     @DeleteMapping("/{isbn}")
     public void deleteBook(@PathVariable String isbn){
