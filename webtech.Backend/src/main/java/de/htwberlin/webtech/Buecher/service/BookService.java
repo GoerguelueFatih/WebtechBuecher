@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class BookService {
 
 
     public Book createBook(Book book) {
+        book.setId(UUID.randomUUID().toString());
         book.setIsbn(ISBNGen.generateISBN());
         Category existingCategory = categoryService.createCategory(book.getCategory());
         book.setCategory(existingCategory);

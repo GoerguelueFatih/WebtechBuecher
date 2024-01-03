@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Book {
 
     @Id
+    String id;
     String isbn;
     String title;
     String cost;
