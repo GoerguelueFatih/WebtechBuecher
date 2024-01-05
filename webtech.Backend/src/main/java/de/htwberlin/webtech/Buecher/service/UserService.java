@@ -20,6 +20,10 @@ public class UserService {
         return user;
     }
 
+    public User getUserById(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+    }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
