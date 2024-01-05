@@ -1,10 +1,11 @@
 package de.htwberlin.webtech.Buecher.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Table(name = "books")
 @Data
@@ -15,20 +16,21 @@ import lombok.NoArgsConstructor;
 public class Book {
 
     @Id
-    String id;
     String isbn;
+    @NonNull
     String title;
-    String cost;
+    @NonNull
+    String author;
+    @NonNull
+    BigDecimal price;
     String releaseDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category", referencedColumnName = "name")
     private Category category;
 
-    @Transient
-    private Long categoryId;
 
-    @Transient
-    private String categoryName;
-
+    @ManyToMany(mappedBy = "books")
+    @JsonIgnore
+    private List<Order> orders;
 }

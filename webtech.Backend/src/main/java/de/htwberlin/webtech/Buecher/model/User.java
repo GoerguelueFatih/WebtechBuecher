@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 
@@ -18,7 +19,9 @@ public class User {
 
     @Id
     private String id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
 }

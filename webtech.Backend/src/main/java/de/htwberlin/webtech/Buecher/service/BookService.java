@@ -19,30 +19,29 @@ public class BookService {
     private final CategoryService categoryService;
 
 
+    @Transactional
     public Book createBook(Book book) {
-        book.setId(UUID.randomUUID().toString());
-        book.setIsbn(ISBNGen.generateISBN());
+        String isbn = ISBNGen.generateISBN();
+        if(bookRepository.findByIsbn(isbn) != null) {
+            throw new IllegalArgumentException("A book with the generated ISBN already exists");
+        }
+        book.setIsbn(isbn);
         Category existingCategory = categoryService.createCategory(book.getCategory());
         book.setCategory(existingCategory);
-
         bookRepository.save(book);
-
-        // Retrieve the saved book from the database to get the generated ID
-        Book savedBook = bookRepository.findByIsbn(book.getIsbn());
-        savedBook.setCategoryId(existingCategory.getId());
-        savedBook.setCategoryName(existingCategory.getName());
-
-        return savedBook;
+        return book;
     }
 
 
+    @Transactional
     public Book updateBook(String isbn, Book updateBook){
         Book existingBook = getBookByIsbn(isbn);
         existingBook.setTitle(updateBook.getTitle());
-        existingBook.setCost(updateBook.getCost());
+        existingBook.setPrice(updateBook.getPrice());
         existingBook.setReleaseDate(updateBook.getReleaseDate());
         return saveBook(existingBook);
     }
+
 
     @Transactional
     public void deleteBook(String isbn){
@@ -55,10 +54,6 @@ public class BookService {
 
     public List<Book> searchByTitle(String title) {
         return bookRepository.findByTitle(title);
-    }
-
-    public List<Object[]> findAllBooksAndCategories() {
-        return bookRepository.findAllBooksAndCategories();
     }
 
     public Book getBookByIsbn(String isbn) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
 
