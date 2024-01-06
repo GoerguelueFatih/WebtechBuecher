@@ -12,7 +12,7 @@ type User = {
 
 let users: Ref<User[]> = ref([]);
 axios
-    .get('http://localhost:8080/api/user')
+    .get('http://localhost:8080/user')
     .then((response) => {
       users.value = response.data;
     });

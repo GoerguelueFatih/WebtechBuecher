@@ -1,15 +1,3 @@
-<template>
-  <form @submit.prevent="onSubmit">
-    <label for="username">Username:</label>
-    <input v-model="username" type="text" id="username" required>
-
-    <label for="password">Password:</label>
-    <input v-model="password" type="password" id="password" required>
-
-    <button type="submit">Add User</button>
-  </form>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
@@ -24,7 +12,7 @@ function onSubmit() {
     password: password.value,
   };
 
-  axios.post('http://localhost:8080/api/user', userData)
+  axios.post('http://localhost:8080/user', userData)
       .then((response) => {
         emit('userAdded', response.data);
         username.value = '';
@@ -35,6 +23,19 @@ function onSubmit() {
       });
 }
 </script>
+
+<template>
+  <form @submit.prevent="onSubmit">
+    <label for="username">Username:</label>
+    <input v-model="username" type="text" id="username" required>
+
+    <label for="password">Password:</label>
+    <input v-model="password" type="password" id="password" required>
+
+    <button type="submit">Add User</button>
+  </form>
+</template>
+
 
 <style scoped>
 form {
@@ -54,13 +55,13 @@ input {
 
 button {
   background-color: #4caf50;
-  color: white;
+  color: #ffffff;
   padding: 10px;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #459d49;
 }
 </style>

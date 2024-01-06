@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class Cart {
 
     @Id
     private String id;
+    @Transient
+    private BigDecimal totalCost;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

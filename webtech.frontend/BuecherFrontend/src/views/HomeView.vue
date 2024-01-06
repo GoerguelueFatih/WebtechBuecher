@@ -6,7 +6,7 @@ import AddUser from '@/components/AddUser.vue';
 
 <template>
   <main>
-    <a href="http://localhost:5173/User"> User Übersicht </a>
+    <a href="http://localhost:5173/User"> User Overview </a>
     <AddUser></AddUser>
   </main>
 </template>

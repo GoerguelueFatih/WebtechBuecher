@@ -12,7 +12,7 @@ let users = ref<User[]>([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/user');
+    const response = await axios.get('http://localhost:8080/user');
     users.value = response.data;
   } catch (error) {
     console.error('Error fetching user data:', error);
