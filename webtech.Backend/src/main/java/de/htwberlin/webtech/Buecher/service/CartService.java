@@ -31,6 +31,7 @@ public class CartService {
         return cartRepository.findById(id);
     }
 
+
     @Transactional
     public Cart updateCart(String id, Cart updatedCart) {
         return cartRepository.findById(id).map(cart -> {
@@ -41,10 +42,12 @@ public class CartService {
                 -> new IllegalArgumentException("Cart not found with id: " + id));
     }
 
+
     @Transactional
     public void deleteCart(String id) {
         cartRepository.deleteById(id);
     }
+
 
     @Transactional
     public Cart addBookToCart(String cartId, Book book) {
@@ -54,6 +57,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+
     @Transactional
     public Cart removeBookFromCart(String cartId, Book book) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(()
@@ -61,6 +65,7 @@ public class CartService {
         cart.getBooks().remove(book);
         return cartRepository.save(cart);
     }
+
 
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
@@ -75,6 +80,7 @@ public class CartService {
                 .map(Book::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
 
     @Transactional
     public void clearCart(String cartId) {
