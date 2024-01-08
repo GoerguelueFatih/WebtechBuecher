@@ -39,13 +39,13 @@ public class BookService {
         existingBook.setTitle(updateBook.getTitle());
         existingBook.setPrice(updateBook.getPrice());
         existingBook.setReleaseDate(updateBook.getReleaseDate());
+        existingBook.setAuthor(updateBook.getAuthor());
         return saveBook(existingBook);
     }
 
 
-    @Transactional
-    public void deleteBook(String isbn){
-        bookRepository.deleteByIsbn(isbn);
+    public void deleteBook(String bookId){
+        bookRepository.deleteById(bookId);
     }
 
     public List<Book> getAllBooks(){
@@ -53,17 +53,24 @@ public class BookService {
     }
 
     public List<Book> searchByTitle(String title) {
-        return bookRepository.findByTitle(title);
+        return bookRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Book> searchByAuthor(String author){
+        return bookRepository.findByAuthor(author);
     }
 
     public Book getBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }
 
+    public List<Book> getBooksByCategory(String categoryName) {
+        return bookRepository.findByCategoryName(categoryName);
+    }
+
     public Book saveBook(Book book) {
         return bookRepository.save(book);
     }
-
 
 }
 

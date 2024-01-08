@@ -5,6 +5,7 @@ import de.htwberlin.webtech.Buecher.model.Category;
 import de.htwberlin.webtech.Buecher.model.User;
 import de.htwberlin.webtech.Buecher.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class CategoryController {
         if (name != null) {
             return categoryService.searchByCategory(name);
         }
-        return categoryService.getAllCategory();
+        return categoryService.getAllCategories();
     }
 
     @DeleteMapping("/{categoryid}")
