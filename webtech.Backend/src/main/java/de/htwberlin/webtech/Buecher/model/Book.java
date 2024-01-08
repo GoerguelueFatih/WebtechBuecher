@@ -25,7 +25,7 @@ public class Book {
     BigDecimal price;
     String releaseDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "category", referencedColumnName = "name")
     private Category category;
 
