@@ -26,7 +26,7 @@ function onSubmit() {
 
 <template>
   <div class="register-container">
-    <h1>Register to Bookstore</h1>
+    <h1>Login to Bookstore</h1>
     <form @submit.prevent="onSubmit" class="register-form">
       <div class="input-group">
         <label for="username">Username:</label>
@@ -38,8 +38,8 @@ function onSubmit() {
         <input v-model="password" type="password" id="password" required>
       </div>
 
-      <button type="submit" class="btn-register">Register</button>
-      <router-link to="/login" class="btn-signin">Already have an Account?</router-link>
+      <button type="submit" class="btn-register">Sign In</button>
+      <router-link to="/register" class="btn-signin">No Account? Register Here</router-link>
     </form>
   </div>
 </template>
