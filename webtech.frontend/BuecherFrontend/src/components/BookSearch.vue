@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, defineEmits } from 'vue';
-import axios from 'axios';
+import { ref, onMounted} from 'vue';
+import axios, {AxiosResponse} from 'axios';
 
 const books = ref([]);
 const searchTerm = ref('');

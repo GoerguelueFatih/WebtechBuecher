@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!--<script setup lang="ts">
 import axios from 'axios';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
@@ -12,7 +12,7 @@ type User = {
 
 let users: Ref<User[]> = ref([]);
 axios
-    .get('http://localhost:8080/user')
+    .get('http://localhost:8080/users')
     .then((response) => {
       users.value = response.data;
     });
@@ -48,3 +48,4 @@ table, th, td {
   border: 1px solid;
 }
 </style>
+-->

@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
+    @CrossOrigin
     @PostMapping
     public User createUser(@RequestBody User user){
         return userService.createUser(user);
     }
 
+    @CrossOrigin
     @GetMapping
     public List<User> getAllUsers(@RequestParam(required = false) String name){
         if(name != null){
@@ -27,6 +29,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @CrossOrigin
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);

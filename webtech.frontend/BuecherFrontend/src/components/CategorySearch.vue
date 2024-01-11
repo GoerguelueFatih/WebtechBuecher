@@ -8,7 +8,7 @@ const books = ref([]);
 onMounted(fetchCategories);
 
 function fetchCategories() {
-  axios.get('http://localhost:8080/category')  // Ensure this matches your endpoint
+  axios.get('http://localhost:8080/category')
       .then(response => {
         categories.value = response.data;
       })

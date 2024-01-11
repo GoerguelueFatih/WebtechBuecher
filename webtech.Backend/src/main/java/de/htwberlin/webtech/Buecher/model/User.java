@@ -23,6 +23,11 @@ public class User {
     private String username;
     @NotNull
     private String password;
-
+    @NotNull
+    private String firstname;
+    @NotNull
+    private String lastname;
+    @NotNull
+    private String email;
 }
 

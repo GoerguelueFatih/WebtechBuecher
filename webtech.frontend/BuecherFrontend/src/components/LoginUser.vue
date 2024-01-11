@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!--<script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ function onSubmit() {
     password: password.value,
   };
 
-  axios.post('http://localhost:8080/user', userData)
+  axios.post('http://localhost:8080/users', userData)
       .then((response) => {
         emit('userAdded', response.data);
         username.value = '';
@@ -120,3 +120,4 @@ h1 {
   color: #333;
 }
 </style>
+-->

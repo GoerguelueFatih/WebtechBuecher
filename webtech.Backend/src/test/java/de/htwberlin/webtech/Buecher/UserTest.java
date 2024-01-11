@@ -23,7 +23,7 @@ public class UserTest {
 
     @Test
     public void CreateUserSaveTest() {
-        User user = new User(UUID.randomUUID().toString(), "john_doe", "password123");
+        User user = new User(UUID.randomUUID().toString(), "john_doe", "password123", "Max", "Mustermann", "Test@gmail.com");
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
 
         User createdUser = userService.createUser(user);
