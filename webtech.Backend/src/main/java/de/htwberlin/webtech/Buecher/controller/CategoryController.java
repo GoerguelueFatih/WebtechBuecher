@@ -17,11 +17,13 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    @CrossOrigin
     @PostMapping
     public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
 
+    @CrossOrigin
     @GetMapping
     public List<Category> getAllCategory(@RequestParam(required = false) String name) {
         if (name != null) {
@@ -30,6 +32,7 @@ public class CategoryController {
         return categoryService.getAllCategories();
     }
 
+    @CrossOrigin
     @DeleteMapping("/{categoryid}")
     public void deleteCategory(@PathVariable String categoryid) {
         categoryService.deleteCategory(Long.valueOf(categoryid));

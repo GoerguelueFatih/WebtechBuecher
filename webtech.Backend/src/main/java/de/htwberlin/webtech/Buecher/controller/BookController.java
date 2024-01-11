@@ -16,12 +16,14 @@ public class BookController {
 
     private final BookService bookService;
 
+    @CrossOrigin
     @PostMapping
     public Book createBook(@RequestBody Book book) {
         return bookService.createBook(book);
     }
 
 
+    @CrossOrigin
     @GetMapping("/search")
     public ResponseEntity<List<Book>> searchBooks(@RequestParam(required = false) String title,
                                                   @RequestParam(required = false) String author) {
@@ -36,7 +38,7 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
-
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam(required = false) String category) {
         if (category != null && !category.trim().isEmpty()) {
@@ -47,13 +49,13 @@ public class BookController {
     }
 
 
-
+    @CrossOrigin
     @PutMapping("/{isbn}")
     public Book updateBook(@PathVariable String isbn, @RequestBody Book updatedBook){
         return bookService.updateBook(isbn, updatedBook);
     }
 
-
+    @CrossOrigin
     @DeleteMapping("/{isbn}")
     public void deleteBook(@PathVariable String isbn){
         bookService.deleteBook(isbn);

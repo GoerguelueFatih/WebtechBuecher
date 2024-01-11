@@ -15,7 +15,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         try {
@@ -26,7 +26,7 @@ public class OrderController {
         }
     }
 
-
+    @CrossOrigin
     @GetMapping("/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId) {
         try {
@@ -37,7 +37,7 @@ public class OrderController {
         }
     }
 
-
+    @CrossOrigin
     @PutMapping("/{orderId}")
     public ResponseEntity<Order> updateOrder(@PathVariable String orderId, @RequestBody Order updatedOrder) {
         try {
@@ -48,7 +48,7 @@ public class OrderController {
         }
     }
 
-
+    @CrossOrigin
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable String orderId) {
         try {
@@ -59,14 +59,14 @@ public class OrderController {
         }
     }
 
-
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
-
+    @CrossOrigin
     @PostMapping("/{cartId}/purchase")
     public ResponseEntity<Order> purchaseCart(@PathVariable String cartId, @RequestParam String userId) {
         try {
