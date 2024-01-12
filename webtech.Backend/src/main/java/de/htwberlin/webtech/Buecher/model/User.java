@@ -22,6 +22,7 @@ public class User {
     @NotNull
     private String username;
     @NotNull
+    @Column(length = 64)
     private String password;
     @NotNull
     private String firstname;

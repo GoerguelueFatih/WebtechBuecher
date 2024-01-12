@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { ref, onMounted} from 'vue';
-import axios, {AxiosResponse} from 'axios';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useAuth } from '@okta/okta-vue';
 
+const auth = useAuth();
 const books = ref([]);
 const searchTerm = ref('');
-const emit = defineEmits(['add-book-to-cart']);
 
-function onSearchSubmit() {
-  searchBooks();
-}
-
-function searchBooks() {
+async function searchBooks() {
   if (searchTerm.value.length >= 3) {
-    axios.get(`http://localhost:8080/books/search?title=${encodeURIComponent(searchTerm.value)}`)
-        .then(response => {
-          books.value = response.data;
-        })
-        .catch(error => {
-          console.error("Error searching books:", error);
-          books.value = [];
-        });
+    try {
+      const token = await auth.getAccessToken();
+      const response = await axios.get(
+          `http://localhost:8080/books/search?title=${encodeURIComponent(searchTerm.value)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      books.value = response.data;
+    } catch (error) {
+      console.error("Error searching books:", error);
+      books.value = [];
+    }
   } else {
     books.value = [];
   }
-}
-
-function addToCart(book) {
-  emit('add-book-to-cart', book);
 }
 
 </script>

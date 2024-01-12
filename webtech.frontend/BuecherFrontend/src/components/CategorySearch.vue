@@ -1,31 +1,41 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useAuth } from '@okta/okta-vue';
 
+const auth = useAuth();
 const categories = ref([]);
 const books = ref([]);
 
 onMounted(fetchCategories);
 
-function fetchCategories() {
-  axios.get('http://localhost:8080/category')
-      .then(response => {
-        categories.value = response.data;
-      })
-      .catch(error => {
-        console.error("Error fetching categories:", error);
-      });
+async function fetchCategories() {
+  try {
+    const token = await auth.getAccessToken();
+    const response = await axios.get('http://localhost:8080/category', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    categories.value = response.data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
 }
 
-function fetchBooksByCategory(selectedCategory) {
-  axios.get(`http://localhost:8080/books?category=${encodeURIComponent(selectedCategory.name)}`)
-      .then(response => {
-        books.value = response.data;
-      })
-      .catch(error => {
-        console.error("Error fetching books by category:", error);
-        books.value = [];
-      });
+async function fetchBooksByCategory(selectedCategory) {
+  try {
+    const token = await auth.getAccessToken();
+    const response = await axios.get(`http://localhost:8080/books?category=${encodeURIComponent(selectedCategory.name)}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    books.value = response.data;
+  } catch (error) {
+    console.error("Error fetching books by category:", error);
+    books.value = [];
+  }
 }
 </script>
 

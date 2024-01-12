@@ -3,6 +3,7 @@ package de.htwberlin.webtech.Buecher.service;
 import de.htwberlin.webtech.Buecher.model.User;
 import de.htwberlin.webtech.Buecher.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +14,13 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User createUser(User user){
+    public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
-        userRepository.save(user);
-        return user;
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
     }
 
     public User getUserById(String userId) {
