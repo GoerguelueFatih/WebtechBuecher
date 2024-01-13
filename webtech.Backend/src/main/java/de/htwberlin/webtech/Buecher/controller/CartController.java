@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/carts")
 @RequiredArgsConstructor
@@ -18,9 +17,14 @@ public class CartController {
     private final CartService cartService;
 
     @CrossOrigin
-    @PostMapping
-    public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
-        return ResponseEntity.ok(cartService.createCart(cart));
+    @PostMapping("/{userId}")
+    public ResponseEntity<Cart> createCart(@PathVariable String userId) {
+        try {
+            Cart newCart = cartService.createCart(userId);
+            return ResponseEntity.ok(newCart);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @CrossOrigin

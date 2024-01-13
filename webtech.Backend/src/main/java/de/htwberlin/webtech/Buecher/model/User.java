@@ -19,16 +19,11 @@ public class User {
 
     @Id
     private String id;
-    @NotNull
-    private String username;
-    @NotNull
-    @Column(length = 64)
-    private String password;
-    @NotNull
-    private String firstname;
-    @NotNull
-    private String lastname;
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private String firstname;
+    @Column(nullable = false)
+    private String lastname;
 }
 

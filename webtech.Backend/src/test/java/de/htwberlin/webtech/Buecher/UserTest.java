@@ -5,16 +5,18 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import de.htwberlin.webtech.Buecher.model.User;
 import de.htwberlin.webtech.Buecher.repository.UserRepository;
 import de.htwberlin.webtech.Buecher.service.UserService;
+import java.util.Optional;
 import java.util.UUID;
+
 @SpringBootTest
 public class UserTest {
-
     @Autowired
     private UserService userService;
 
@@ -22,18 +24,24 @@ public class UserTest {
     private UserRepository userRepository;
 
     @Test
-    public void CreateUserSaveTest() {
-        User user = new User(UUID.randomUUID().toString(), "john_doe", "password123", "Max", "Mustermann", "Test@gmail.com");
+    public void createOrUpdateUserFromOktaTest() {
+        String oktaUserId = UUID.randomUUID().toString();
+        User user = new User(oktaUserId, "Test@gmail.com", "Max", "Mustermann");
+
+        Mockito.when(userRepository.findById(oktaUserId)).thenReturn(Optional.empty());
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User createdUser = userService.createUser(user);
+        User createdUser = userService.createOrUpdateUserFromOkta(oktaUserId, user.getEmail(), user.getFirstname(), user.getLastname());
 
         assertNotNull(createdUser);
-        assertEquals(user.getUsername(), createdUser.getUsername());
+        assertEquals(user.getId(), createdUser.getId());
+        assertEquals(user.getEmail(), createdUser.getEmail());
+        assertEquals(user.getFirstname(), createdUser.getFirstname());
+        assertEquals(user.getLastname(), createdUser.getLastname());
     }
 
     @Test
-    public void DeleteUserTest() {
+    public void deleteUserTest() {
         String userId = UUID.randomUUID().toString();
         doNothing().when(userRepository).deleteById(userId);
 

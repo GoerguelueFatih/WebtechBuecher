@@ -1,20 +1,16 @@
 package de.htwberlin.webtech.Buecher.model;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Table(name = "cart")
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +18,6 @@ public class Cart {
 
     @Id
     private String id;
-    @Transient
-    private BigDecimal totalCost;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,7 +32,20 @@ public class Cart {
     @Builder.Default
     private List<Book> books = new ArrayList<>();
 
-    private LocalDateTime localDateTime;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    public BigDecimal getTotalCost() {
+        return books.stream()
+                .map(Book::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void updateTimestamps() {
+        updatedAt = LocalDateTime.now();
+    }
 
 
 }

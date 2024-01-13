@@ -14,18 +14,17 @@ public class UserController {
 
     private final UserService userService;
 
+
     @CrossOrigin
-    @PostMapping
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
+    @PostMapping("/createOrUpdate")
+    public User createOrUpdateUserFromOkta(@RequestBody User user) {
+        return userService.createOrUpdateUserFromOkta(
+                user.getId(), user.getEmail(), user.getFirstname(), user.getLastname());
     }
 
     @CrossOrigin
     @GetMapping
-    public List<User> getAllUsers(@RequestParam(required = false) String name){
-        if(name != null){
-            return userService.searchByName(name);
-        }
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 

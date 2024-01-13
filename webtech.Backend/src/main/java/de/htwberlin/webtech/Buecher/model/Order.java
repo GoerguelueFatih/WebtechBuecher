@@ -2,17 +2,14 @@ package de.htwberlin.webtech.Buecher.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Table(name = "orders")
 @Entity
+@Table(name = "orders")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,11 +17,16 @@ import java.util.List;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+
     private BigDecimal total;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     @Builder.Default
-    private LocalDate localDate = LocalDate.now();
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,4 +40,13 @@ public class Order {
     )
     @JsonIgnore
     private List<Book> books;
+
+
+    public enum OrderStatus {
+        PENDING,
+        SHIPPED,
+        DELIVERED,
+        CANCELLED,
+        PURCHASED
+    }
 }
