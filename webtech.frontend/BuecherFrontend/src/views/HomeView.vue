@@ -8,7 +8,6 @@ import CategorySearch from "@/components/CategorySearch.vue";
   <main class="layout">
     <header class="header">
       <BookSearch class="search-bar"></BookSearch>
-      <a href="http://localhost:5173/Login" class="user-login">User Login</a>
     </header>
     <aside class="category-search">
       <CategorySearch></CategorySearch>
@@ -34,7 +33,7 @@ import CategorySearch from "@/components/CategorySearch.vue";
 
 .search-bar {
   flex-grow: 1;
-  margin-right: 2rem; /* Adjust as needed */
+  margin-right: 2rem;
 }
 
 .user-login {
@@ -53,5 +52,4 @@ import CategorySearch from "@/components/CategorySearch.vue";
   padding: 1rem;
 }
 
-/* Add additional styling as needed */
 </style>

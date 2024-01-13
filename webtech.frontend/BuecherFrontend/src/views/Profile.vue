@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useAuth } from '@okta/okta-vue'
 import type { CustomUserClaim } from '@okta/okta-auth-js'
+import axios from "axios";
 const $auth = useAuth()
 const claims = ref<{claim: string, value: CustomUserClaim |  CustomUserClaim[]}[]>([{
   claim: 'Loading...',
@@ -16,6 +17,34 @@ onMounted(async () => {
     })
   }
 })
+
+onMounted(async () => {
+  const isAuthenticated = await $auth.isAuthenticated()
+  if (isAuthenticated) {
+    const userClaims = await $auth.getUser()
+
+    const user = {
+      id: userClaims.sub,
+      email: userClaims.email,
+      firstname: userClaims.given_name,
+      lastname: userClaims.family_name
+    }
+
+    const headers = isAuthenticated ? {
+      Authorization: `Bearer ${await $auth.getIdToken()}`
+    } : {};
+
+    axios.post('http://localhost:8080/users/createOrUpdate', user, {
+      headers
+    })
+        .then(response => {
+          console.log('User created/updated', response.data);
+        })
+        .catch(error => {
+          console.error('Error creating/updating user', error);
+        });
+  }
+});
 </script>
 
 <template>

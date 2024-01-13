@@ -53,8 +53,8 @@ async function fetchBooksByCategory(selectedCategory) {
     </div>
     <div class="book-results">
       <ul v-if="books.length">
-        <li v-for="book in books" :key="book.isbn">
-          {{ book.title }} by {{ book.author }}
+        <li v-for="book in books" :key="book.id">
+          {{ book.title }} by {{ book.author }} #Price {{book.price}}€
         </li>
       </ul>
       <p v-else>No books found in this category.</p>
