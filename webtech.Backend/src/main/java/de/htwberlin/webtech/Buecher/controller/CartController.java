@@ -46,11 +46,23 @@ public class CartController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable String id) {
-        cartService.deleteCart(id);
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<Void> deleteCart(@PathVariable String cartId) {
+        cartService.deleteCart(cartId);
         return ResponseEntity.ok().build();
     }
+
+    @CrossOrigin
+    @DeleteMapping("/{cartId}/clear")
+    public ResponseEntity<Void> clearCart( @PathVariable String cartId) {
+        try {
+            cartService.clearCart(cartId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 
     @CrossOrigin
     @PostMapping("/{cartId}/books")

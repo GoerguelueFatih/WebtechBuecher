@@ -31,7 +31,7 @@ public class UserTest {
         Mockito.when(userRepository.findById(oktaUserId)).thenReturn(Optional.empty());
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User createdUser = userService.createOrUpdateUserFromOkta(oktaUserId, user.getEmail(), user.getFirstname(), user.getLastname());
+        User createdUser = userService.createOrUpdateOktaUser(oktaUserId, user.getEmail(), user.getFirstname(), user.getLastname());
 
         assertNotNull(createdUser);
         assertEquals(user.getId(), createdUser.getId());

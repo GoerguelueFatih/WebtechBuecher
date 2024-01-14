@@ -14,7 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User createOrUpdateUserFromOkta(String oktaUserId, String email, String firstname, String lastname) {
+    public User createOrUpdateOktaUser(String oktaUserId, String email, String firstname, String lastname) {
         Optional<User> existingUser = userRepository.findById(oktaUserId);
         if (existingUser.isPresent()) {
             User user = existingUser.get();

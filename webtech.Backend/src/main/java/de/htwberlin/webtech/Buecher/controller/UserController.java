@@ -17,8 +17,8 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/createOrUpdate")
-    public User createOrUpdateUserFromOkta(@RequestBody User user) {
-        return userService.createOrUpdateUserFromOkta(
+    public User createOrUpdateOktaUser(@RequestBody User user) {
+        return userService.createOrUpdateOktaUser(
                 user.getId(), user.getEmail(), user.getFirstname(), user.getLastname());
     }
 

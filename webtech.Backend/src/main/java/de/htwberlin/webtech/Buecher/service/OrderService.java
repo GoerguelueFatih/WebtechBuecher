@@ -1,5 +1,7 @@
 package de.htwberlin.webtech.Buecher.service;
 
+import de.htwberlin.webtech.Buecher.ExtraCode.OrderDTO;
+import de.htwberlin.webtech.Buecher.model.Book;
 import de.htwberlin.webtech.Buecher.model.Cart;
 import de.htwberlin.webtech.Buecher.model.Order;
 import de.htwberlin.webtech.Buecher.model.User;
@@ -8,9 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,17 +55,40 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+
+    public List<OrderDTO> getAllOrderDTOs() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(order -> {
+            List<String> bookTitles = order.getBooks().stream()
+                    .map(Book::getTitle)
+                    .collect(Collectors.toList());
+            String formattedDate = order.getLocalDateTime().toString();
+            return new OrderDTO(
+                    order.getId(),
+                    order.getTotal(),
+                    order.getStatus(),
+                    formattedDate,
+                    bookTitles
+            );
+        }).collect(Collectors.toList());
+    }
+
+
+
     @Transactional
-    public Order purchaseCart(String cartId, String userId) {
+    public Order purchaseCart(String cartId, String oktaUserId) {
         Cart cart = cartService.getCartById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-        User user = userService.getUserById(userId);
+        User user = userService.getUserById(oktaUserId);
 
         if (cart.getBooks().isEmpty()) {
             throw new RuntimeException("Cannot purchase an empty cart");
         }
 
+        String orderId = UUID.randomUUID().toString();
+
         Order order = Order.builder()
+                .id(orderId)
                 .user(user)
                 .books(new ArrayList<>(cart.getBooks()))
                 .total(cartService.calculateTotalCost(cartId))
@@ -68,4 +97,5 @@ public class OrderService {
 
         return createOrder(order);
     }
+
 }

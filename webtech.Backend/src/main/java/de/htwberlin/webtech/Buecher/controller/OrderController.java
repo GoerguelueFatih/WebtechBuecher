@@ -1,5 +1,6 @@
 package de.htwberlin.webtech.Buecher.controller;
 
+import de.htwberlin.webtech.Buecher.ExtraCode.OrderDTO;
 import de.htwberlin.webtech.Buecher.model.Order;
 import de.htwberlin.webtech.Buecher.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -66,14 +67,19 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @CrossOrigin
+    @GetMapping("/orderDTO")
+    public ResponseEntity<List<OrderDTO>> getAllOrderDTOs() {
+        List<OrderDTO> orderDTOs = orderService.getAllOrderDTOs();
+        return ResponseEntity.ok(orderDTOs);
+    }
+
     @PostMapping("/{cartId}/purchase")
-    public ResponseEntity<Order> purchaseCart(@PathVariable String cartId, @RequestParam String userId) {
+    public ResponseEntity<?> purchaseCart(@PathVariable String cartId, @RequestParam String userId) {
         try {
             Order order = orderService.purchaseCart(cartId, userId);
             return ResponseEntity.ok(order);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
 }

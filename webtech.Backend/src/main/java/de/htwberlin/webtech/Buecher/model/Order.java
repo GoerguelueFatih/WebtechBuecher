@@ -1,5 +1,6 @@
 package de.htwberlin.webtech.Buecher.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,6 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     private BigDecimal total;
@@ -26,6 +26,7 @@ public class Order {
     private OrderStatus status;
 
     @Builder.Default
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime localDateTime = LocalDateTime.now();
 
     @ManyToOne
