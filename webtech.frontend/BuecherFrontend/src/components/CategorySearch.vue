@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useAuth } from '@okta/okta-vue';
@@ -64,16 +64,16 @@ async function fetchBooksByCategory(selectedCategory) {
 
 <style scoped>
 .category-search {
-  /* Style your component */
+
 }
 
 .category-list button {
-  /* Style your buttons */
+
 }
 
 .book-results ul {
-  /* Style your results list */
+
 }
 
-/* Add more styles as needed */
+
 </style>

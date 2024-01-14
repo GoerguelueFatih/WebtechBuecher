@@ -1,89 +1,117 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, watch } from 'vue';
+import {clearCart, deleteCart, getSelectedBooks} from './CartHandler';
 
-const cartItems = ref([]);
-const cartId = ref(null);
-onMounted(() => {
+
+const props = defineProps({
+  books: Array
 });
 
-async function addBookToCart(book) {
-  if (!cartId.value) {
-    await createCart();
-  }
-  try {
-    await axios.post('http://localhost:8080/carts/${cartId.value}/books, book');
-    cartItems.value.push(book);
-  } catch (error) {
-    console.error("Error adding book to cart:", error);
-  }
-}
+const cart = ref({ books: getSelectedBooks().value });
 
-async function removeFromCart(book) {
-  try {
-    await axios.delete(`http://localhost:8080/carts/${cartId.value
-
-    }/books`, { data: book });
-// Update the cartItems by filtering out the removed book
-    cartItems.value = cartItems.value.filter(item => item.id !== book.id);
-  } catch (error) {
-    console.error("Error removing book from cart:", error);
+watch(() => props.books, (newBooks, oldBooks) => {
+  if (newBooks !== oldBooks) {
+    cart.value.books = newBooks;
   }
-}
+}, { deep: true });
 
-async function clearCart() {
-  try {
-    await axios.delete('http://localhost:8080/carts/${cartId.value}');
-    cartItems.value = [];
-  } catch (error) {
-    console.error("Error clearing cart:", error);
-  }
-}
 
-async function createCart() {
-  try {
-    const response = await axios.post('http://localhost:8080/carts');
-    cartId.value = response.data.id;
-  } catch (error) {
-    console.error("Error creating cart:", error);
-  }
-}
-
-async function fetchCart() {
-  if (!cartId.value) return;
-  try {
-    const response = await axios.get('http://localhost:8080/carts/${cartId.value}');
-    cartItems.value = response.data.books;
-  } catch (error) {
-    console.error("Error fetching cart:", error);
-  }
-}
+watch(getSelectedBooks, (newBooks) => {
+  cart.value.books = newBooks;
+}, { deep: true });
 </script>
 
 <template>
-  <div class="cart">
+  <div class="cart-container">
     <h2>Your Cart</h2>
-    <ul v-if="cartItems.length">
-      <li v-for="(item, index) in cartItems" :key="index">
-        {{ item.title }} by {{ item.author }} - Price: {{ item.price }}€
-        <button @click="removeFromCart(item)">Remove</button>
-      </li>
-    </ul>
-    <p v-else>Your cart is empty.</p>
-    <button v-if="cartItems.length" @click="clearCart">Clear Cart</button>
+    <div v-if="cart.books.length">
+      <ul>
+        <li v-for="book in cart.books" :key="book.id">
+          {{ book.title }} by {{ book.author }} - Price: {{ book.price }}€
+        </li>
+      </ul>
+      <button @click="clearCart" class="clear-cart-button">Clear Cart</button>
+      <button @click="deleteCart" class="delete-cart-Button">Delete Cart</button>
+    </div>
+    <div v-else>
+      <p>Your cart is empty.</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.cart {
-  /* Your CSS styles */
+.cart-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 1rem;
+  background-color: #020202;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.cart ul {
-  /* Styles for the list */
+.cart-header {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
-.cart button {
-  /* Button styles */
+.cart-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-item {
+  background-color: #d72424;
+  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.cart-item:hover {
+  background-color: #f0f0f0;
+}
+
+.cart-item-title {
+  font-weight: bold;
+  color: #444;
+}
+
+.cart-item-details {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.clear-cart-button {
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clear-cart-button:hover {
+  background-color: #c0392b;
+}
+
+.delete-cart-Button {
+  background-color: #e74c3c;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-cart-Button:hover {
+  background-color: #c0392b;
 }
 </style>
+

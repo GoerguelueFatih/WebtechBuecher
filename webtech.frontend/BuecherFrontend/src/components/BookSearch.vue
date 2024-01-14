@@ -2,11 +2,11 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useAuth } from '@okta/okta-vue';
+import { handleAddToCart } from './CartHandler';
 
 const auth = useAuth();
 const books = ref([]);
 const searchTerm = ref('');
-const emit = defineEmits(['add-to-cart']);
 
 async function searchBooks() {
   if (searchTerm.value.length < 3) {
@@ -24,34 +24,30 @@ async function searchBooks() {
     books.value = [];
   }
 }
-
-const emitAddToCart = (book) => {
-  emit('add-to-cart', book);
-};
 </script>
 
 <template>
   <div class="book-search-container">
     <div class="search-bar">
       <input
-        type="text"
-        v-model="searchTerm"
-        @input="searchBooks"
-        placeholder="Search books..."
-    />
-      </div>
+          type="text"
+          v-model="searchTerm"
+          @input="searchBooks"
+          placeholder="Search books..."
+      />
+    </div>
     <div class="search-results">
-        <ul>
-          <li v-for="book in books" :key="book.id" class="book-item">
-            <span class="book-title">{{ book.title }}</span> by
-            <span class="book-author">{{ book.author }}</span> -
-            Price: <span class="book-price">{{ book.price }}</span>€
-            <button @click="emitAddToCart(book)" class="add-to-cart-button">Add to Cart</button>
-          </li>
-        </ul>
-      </div>
+      <ul>
+        <li v-for="book in books" :key="book.id" class="book-item">
+          <span class="book-title">{{ book.title }}</span> by
+          <span class="book-author">{{ book.author }}</span> -
+          Price: <span class="book-price">{{ book.price }}</span>€
+          <button @click="() => handleAddToCart(book)" class="add-to-cart-button">Add to Cart</button>
+        </li>
+      </ul>
+    </div>
   </div>
-    </template>
+</template>
 
 <style scoped>
 

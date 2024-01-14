@@ -1,16 +1,32 @@
-<script setup>
+<script setup lang="ts">
+import { ref } from 'vue';
 import BookSearch from "@/components/BookSearch.vue";
 import CategorySearch from "@/components/CategorySearch.vue";
+import Cart from "@/components/Cart.vue";
+import BookOrder from "@/components/BookOrder.vue";
+
+const cartItems = ref([]);
+
+const addToCart = (book) => {
+  cartItems.value.push(book);
+};
 </script>
 
 
 <template>
   <main class="layout">
     <header class="header">
-      <BookSearch class="search-bar"></BookSearch>
+      <BookSearch class="search-bar" @add-to-cart="addToCart" />
     </header>
     <aside class="category-search">
-      <CategorySearch></CategorySearch>
+      <CategorySearch />
+    </aside>
+
+    <aside class="cart">
+      <Cart :items="cartItems" />
+    </aside>
+    <aside class="order">
+      <BookOrder></BookOrder>
     </aside>
   </main>
 </template>
@@ -36,14 +52,6 @@ import CategorySearch from "@/components/CategorySearch.vue";
   margin-right: 2rem;
 }
 
-.user-login {
-  margin-left: auto;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-}
 
 .category-search {
   display: flex;
