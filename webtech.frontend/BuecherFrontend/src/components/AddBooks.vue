@@ -106,7 +106,7 @@ export default {
 </template>
 
 <style scoped>
-/* Improved form styling */
+
 .book-form {
   max-width: 400px;
   margin: 0 auto;
