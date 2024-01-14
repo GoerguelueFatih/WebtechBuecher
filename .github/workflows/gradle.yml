@@ -48,11 +48,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: webtech.Backend
-      env:
-        GRADLE_OPTS: "-XX:+EnableDynamicAgentLoading"
 
     - name: Run tests
       run: ./gradlew test
       working-directory: webtech.Backend
-      env:
-        GRADLE_OPTS: "-XX:+EnableDynamicAgentLoading"
