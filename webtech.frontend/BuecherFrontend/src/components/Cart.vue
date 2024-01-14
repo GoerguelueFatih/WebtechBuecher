@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import {clearCart, deleteCart, getSelectedBooks} from './CartHandler';
-
 
 const props = defineProps({
   books: Array
@@ -9,12 +8,17 @@ const props = defineProps({
 
 const cart = ref({ books: getSelectedBooks().value });
 
+
+const totalPrice = computed(() => {
+  const total = cart.value.books.reduce((sum, book) => sum + book.price, 0);
+  return total.toFixed(2);
+});
+
 watch(() => props.books, (newBooks, oldBooks) => {
   if (newBooks !== oldBooks) {
     cart.value.books = newBooks;
   }
 }, { deep: true });
-
 
 watch(getSelectedBooks, (newBooks) => {
   cart.value.books = newBooks;
@@ -30,6 +34,8 @@ watch(getSelectedBooks, (newBooks) => {
           {{ book.title }} by {{ book.author }} - Price: {{ book.price }}€
         </li>
       </ul>
+      <!-- Display the total price -->
+      <p>Total Price: {{ totalPrice }}€</p>
       <button @click="clearCart" class="clear-cart-button">Clear Cart</button>
       <button @click="deleteCart" class="delete-cart-Button">Delete Cart</button>
     </div>
