@@ -26,6 +26,8 @@ onMounted(async () => {
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/orders">Orders</RouterLink>
+      <RouterLink to="/addBooks">Add Books</RouterLink>
+      <RouterLink to="/deleteBooks">Delete Books</RouterLink>
       <RouterLink to="/login" v-if="!authenticated">Login</RouterLink>
       <RouterLink to="/profile" v-if="authenticated">Profile</RouterLink>
       <a href="#" v-if="authenticated" @click.prevent="logout">Logout</a>

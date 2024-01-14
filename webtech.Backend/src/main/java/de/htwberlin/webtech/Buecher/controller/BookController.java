@@ -48,6 +48,12 @@ public class BookController {
         return ResponseEntity.ok(bookService.getAllBooks());
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> books = bookService.getAllBooks();
+        return ResponseEntity.ok(books);
+    }
+
 
     @CrossOrigin
     @PutMapping("/{isbn}")
