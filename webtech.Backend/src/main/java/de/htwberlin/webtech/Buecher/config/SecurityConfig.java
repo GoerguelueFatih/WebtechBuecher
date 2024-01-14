@@ -1,4 +1,4 @@
-/*package de.htwberlin.webtech.Buecher.config;
+package de.htwberlin.webtech.Buecher.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .oauth2ResourceServer(oAuth -> oAuth.jwt(Customizer.withDefaults()))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
@@ -37,4 +37,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-}*/
+}
